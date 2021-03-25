@@ -43,6 +43,7 @@ export const Search = () => {
       <div>
         <TextField
           onChange={(e) => (searchParams = e.target.value)}
+          onBlur={(e) => (searchParams = e.target.value)}
           id="date"
           label="Choose a Date"
           type="date"
