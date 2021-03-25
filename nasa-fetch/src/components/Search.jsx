@@ -21,9 +21,6 @@ const useStyles = makeStyles((theme) => ({
 export const Search = () => {
   const classes = useStyles();
 
-  const [year, setYear] = useState();
-  const [month, setMonth] = useState();
-  const [day, setDay] = useState();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   let searchParams;
