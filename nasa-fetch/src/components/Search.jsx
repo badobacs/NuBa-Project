@@ -24,7 +24,9 @@ export const Search = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   let searchParams;
-  let dateNow = `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`;
+  let dateNow = `${new Date().getFullYear()}-${new Date().getMonth()}-${
+    parseInt(new Date().getDate()) - 1
+  }`;
 
   const fetchData = async () => {
     console.log(searchParams);
@@ -91,7 +93,8 @@ export const Search = () => {
         "Loading..."
       ) : (
         <div style={{ margin: "1rem" }}>
-          <img src={data.url} alt="nasa search result is here" />
+          {data.title ? <h3>{data.title}</h3> : <h4>No title</h4>}
+          <img src={data.url} alt="nasa search img result is here" />
           <p>{data.explanation}</p>
         </div>
       )}
