@@ -1,11 +1,16 @@
 import "./App.css";
 import { Search } from "./components/Search";
+import { HashRouter, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <Search />
-    </div>
+    <HashRouter>
+      <div className="App">
+        <Route exact path="/">
+          <Search />
+        </Route>
+      </div>
+    </HashRouter>
   );
 }
 
