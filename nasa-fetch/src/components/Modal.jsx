@@ -35,7 +35,7 @@ export const Modal = (props) => {
           </DialogContentText>
           <img
             style={{ width: "100%", height: "auto" }}
-            src={data.hdurl}
+            src={data.url}
             alt="nasa search img result is here"
           />
         </DialogContent>
