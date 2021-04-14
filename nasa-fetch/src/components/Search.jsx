@@ -1,10 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import Fade from "react-reveal/Fade";
+import { NasaContext, NasaProvider } from "../Context";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 import SendIcon from "@material-ui/icons/Send";
+import Loading from "./assets/Loading1.gif";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,14 +24,24 @@ const useStyles = makeStyles((theme) => ({
 
 export const Search = () => {
   const classes = useStyles();
-
+  const { value1, value2 } = useContext(NasaContext);
+  const [gallery, setGallery] = value1;
+  const [data, setData] = value2;
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]);
+
   const [searchParams, setSearchParams] = useState("");
+  const [item, setItem] = useState({});
   /* let searchParams; */
   /*   let dateNow = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${
     parseInt(new Date().getDate()) - 1
   }`; */
+
+  const addToGallery = () => {
+    localStorage.setItem("favs", JSON.stringify(gallery));
+  };
+  useEffect(() => {
+    addToGallery();
+  }, [gallery]);
 
   const fetchData = async (search) => {
     console.log(search);
@@ -100,25 +114,52 @@ export const Search = () => {
         </Button>
       </div>
       {loading ? (
-        "Loading..."
+        <img src={Loading} alt="Loading ..." />
       ) : data.url ? (
-        <div style={{ margin: "1rem" }}>
-          {data.title ? <h3>{data.title}</h3> : <h4>No title</h4>}
-          {data.media_type === "image" ? (
-            <a href={data.hdurl} target="_blank" rel="noreferrer">
-              <img
-                style={{ width: "70vh", height: "auto" }}
-                src={data.url}
-                alt="nasa search img result is here"
-              />
-            </a>
-          ) : data.media_type === "video" ? (
-            <iframe width="85%" height="360px" title="NASA video" src={data.url}></iframe>
-          ) : (
-            "we don't know what this is..."
-          )}
-          <p style={{ margin: "1rem auto" }}>{data.explanation}</p>
-        </div>
+        <Fade top>
+          <div style={{ margin: "1rem" }}>
+            {data.title ? <h3>{data.title}</h3> : <h4>No title</h4>}
+            {data.media_type === "image" ? (
+              <>
+                <a href={data.hdurl} target="_blank" rel="noreferrer">
+                  <img
+                    style={{ width: "70vh", height: "auto" }}
+                    src={data.url}
+                    alt="nasa search img result is here"
+                  />
+                </a>
+                <Button
+                  style={{ margin: "1rem" }}
+                  disabled={
+                    gallery.length !== 0 &&
+                    gallery.some((item) => item.date === data.date)
+                  }
+                  onClick={() => {
+                    setGallery((prevState) => [...prevState, data]);
+                    console.log(data);
+                    addToGallery();
+                  }}
+                  variant="outlined"
+                  endIcon={<FavoriteIcon />}>
+                  Add to Gallery
+                </Button>
+              </>
+            ) : data.media_type === "video" ? (
+              <iframe
+                width="85%"
+                height="360px"
+                title="NASA video"
+                src={data.url}></iframe>
+            ) : (
+              "we don't know what this is..."
+            )}
+            <h4>Explanation</h4>
+            <p style={{ margin: "1rem auto" }}>{data.explanation}</p>
+            <p style={{ margin: "1rem auto 2rem auto" }}>
+              <em>Date taken: {data.date}</em>
+            </p>
+          </div>
+        </Fade>
       ) : (
         <p>{data.msg}</p>
       )}
