@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import Fade from "react-reveal/Fade";
-import { NasaContext, NasaProvider } from "../Context";
+import { NasaContext } from "../Context";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -30,7 +30,7 @@ export const Search = () => {
   const [loading, setLoading] = useState(false);
 
   const [searchParams, setSearchParams] = useState("");
-  const [item, setItem] = useState({});
+  /* const [item, setItem] = useState({}); */
   /* let searchParams; */
   /*   let dateNow = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${
     parseInt(new Date().getDate()) - 1
@@ -41,6 +41,7 @@ export const Search = () => {
   };
   useEffect(() => {
     addToGallery();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gallery]);
 
   const fetchData = async (search) => {

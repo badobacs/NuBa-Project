@@ -3,6 +3,7 @@ import { Search } from "./components/Search";
 import { HashRouter, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { NasaProvider } from "./Context";
+import { Gallery } from "./components/Gallery";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           </Route>
           <Route path="/gallery">
             <Navbar />
+            <Gallery />
           </Route>
         </div>
       </HashRouter>
