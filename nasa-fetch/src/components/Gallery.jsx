@@ -9,8 +9,9 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-
 import Typography from "@material-ui/core/Typography";
+
+import Zoom from "react-reveal/Zoom";
 
 const useStyles = makeStyles({
   root: {
@@ -39,32 +40,38 @@ export const Gallery = (props) => {
         }}>
         {gallery.map((item, index) => {
           return (
-            <Card className={classes.root} variant="outlined">
-              <CardActionArea
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}>
-                <CardMedia
-                  component="img"
-                  alt="Contemplative Reptile"
-                  height="140"
-                  image={item.url}
-                  title={item.title}
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    {item.title}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-              <CardActions>
-                <Button size="small" variant="outlined">
-                  Learn More
-                </Button>
-              </CardActions>
-            </Card>
+            <Zoom key={index}>
+              <Card className={classes.root} variant="outlined">
+                <CardActionArea
+                  onClick={() => window.open(`${item.hdurl}`, "_blank")}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}>
+                  <CardMedia
+                    component="img"
+                    alt="Contemplative Reptile"
+                    height="140"
+                    image={item.url}
+                    title={item.title}
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      {item.title}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+                <CardActions>
+                  <Button size="small" variant="outlined">
+                    Learn More
+                  </Button>
+                  <Button size="small" color="secondary" variant="outlined">
+                    Remove
+                  </Button>
+                </CardActions>
+              </Card>
+            </Zoom>
           );
         })}
       </div>

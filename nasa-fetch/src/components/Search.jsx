@@ -121,7 +121,12 @@ export const Search = () => {
           <div style={{ margin: "1rem" }}>
             {data.title ? <h3>{data.title}</h3> : <h4>No title</h4>}
             {data.media_type === "image" ? (
-              <>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}>
                 <a href={data.hdurl} target="_blank" rel="noreferrer">
                   <img
                     style={{ width: "70vh", height: "auto" }}
@@ -130,7 +135,7 @@ export const Search = () => {
                   />
                 </a>
                 <Button
-                  style={{ margin: "1rem" }}
+                  style={{ margin: "1rem auto" }}
                   disabled={
                     gallery.length !== 0 &&
                     gallery.some((item) => item.date === data.date)
@@ -144,7 +149,7 @@ export const Search = () => {
                   endIcon={<FavoriteIcon />}>
                   Add to Gallery
                 </Button>
-              </>
+              </div>
             ) : data.media_type === "video" ? (
               <iframe
                 width="85%"
