@@ -25,41 +25,43 @@ export const Search = () => {
   const [data, setData] = useState([]);
   const [searchParams, setSearchParams] = useState("");
   /* let searchParams; */
-  let dateNow = `${new Date().getFullYear()}-${new Date().getMonth()}-${
+  /*   let dateNow = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${
     parseInt(new Date().getDate()) - 1
-  }`;
+  }`; */
 
   const fetchData = async () => {
     console.log(searchParams);
     if (searchParams) {
-      if (parseInt(searchParams.split("-")[0]) > 1995) {
-        setLoading(true);
-        /*    searchParams = `${parseFloat(year)}-${month}-${day}`;
+      setLoading(true);
+      /*    searchParams = `${parseFloat(year)}-${month}-${day}`;
         console.log(searchParams); */
-        const response = await fetch(
-          `https://api.nasa.gov/planetary/apod?api_key=M61W8ZfNGqjP4EzFr49ctgGmgqnjtR5zIf22qVWD&date=${searchParams}`
-        );
-        console.log(response.status);
+      const response = await fetch(
+        `https://api.nasa.gov/planetary/apod?api_key=M61W8ZfNGqjP4EzFr49ctgGmgqnjtR5zIf22qVWD&date=${searchParams}`
+      );
+      console.log(response.status);
 
-        if (response.status === 200) {
-          setData(await response.json());
-          setLoading(false);
-        } else {
-          setData(await response.json());
-          setLoading(false);
-        }
-      } else if (searchParams.split("-")[0] < 1996) {
-        alert("only select dates after 1996 january 1st!");
-      } else if (parseInt(searchParams.split("-")[0]) > 2021) {
-        alert("only select dates before March of 2021!");
+      if (response.status === 200) {
+        setData(await response.json());
+        setLoading(false);
+      } else {
+        setData(await response.json());
+        setLoading(false);
       }
     }
   };
 
   useEffect(() => {
-    setSearchParams(dateNow);
+    const firstLoad = () => {
+      setSearchParams(
+        `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${
+          parseInt(new Date().getDate()) - 1
+        }`
+      );
+      console.log(searchParams);
+      fetchData();
+    };
 
-    fetchData();
+    firstLoad();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -68,7 +70,6 @@ export const Search = () => {
       <div style={{ margin: "1rem" }}>
         <TextField
           required
-          disableFuture={true}
           value={searchParams}
           onChange={(e) => setSearchParams(e.target.value)}
           onBlur={(e) => setSearchParams(e.target.value)}
@@ -85,9 +86,11 @@ export const Search = () => {
         <Button
           style={{ margin: "1rem" }}
           onClick={() => {
-            fetchData();
-            setSearchParams("mm-dd-yyyy");
-            if (searchParams === "mm-dd-yyyy") {
+            if (searchParams !== "%Y-%m-%d") {
+              fetchData();
+              setSearchParams("%Y-%m-%d");
+            }
+            if (searchParams === "%Y-%m-%d") {
               alert("search date must be completed");
             }
           }}
