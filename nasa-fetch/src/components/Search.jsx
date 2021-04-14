@@ -29,14 +29,14 @@ export const Search = () => {
     parseInt(new Date().getDate()) - 1
   }`; */
 
-  const fetchData = async () => {
-    console.log(searchParams);
-    if (searchParams) {
+  const fetchData = async (search) => {
+    console.log(search);
+    if (search) {
       setLoading(true);
       /*    searchParams = `${parseFloat(year)}-${month}-${day}`;
         console.log(searchParams); */
       const response = await fetch(
-        `https://api.nasa.gov/planetary/apod?api_key=M61W8ZfNGqjP4EzFr49ctgGmgqnjtR5zIf22qVWD&date=${searchParams}`
+        `https://api.nasa.gov/planetary/apod?api_key=M61W8ZfNGqjP4EzFr49ctgGmgqnjtR5zIf22qVWD&date=${search}`
       );
       console.log(response.status);
 
@@ -51,17 +51,17 @@ export const Search = () => {
   };
 
   useEffect(() => {
-    const firstLoad = () => {
-      setSearchParams(
-        `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${
-          parseInt(new Date().getDate()) - 1
-        }`
-      );
-      console.log(searchParams);
-      fetchData();
+    const firstLoad = async () => {
+      const params = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${
+        parseInt(new Date().getDate()) - 1
+      }`;
+      setSearchParams(params);
+      console.log(params);
+      fetchData(params);
     };
 
     firstLoad();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -87,7 +87,7 @@ export const Search = () => {
           style={{ margin: "1rem" }}
           onClick={() => {
             if (searchParams !== "%Y-%m-%d") {
-              fetchData();
+              fetchData(searchParams);
               setSearchParams("%Y-%m-%d");
             }
             if (searchParams === "%Y-%m-%d") {
