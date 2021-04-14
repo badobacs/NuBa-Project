@@ -105,11 +105,13 @@ export const Search = () => {
         <div style={{ margin: "1rem" }}>
           {data.title ? <h3>{data.title}</h3> : <h4>No title</h4>}
           {data.media_type === "image" ? (
-            <img
-              style={{ width: "70vh", height: "auto" }}
-              src={data.url}
-              alt="nasa search img result is here"
-            />
+            <a href={data.hdurl} target="_blank" rel="noreferrer">
+              <img
+                style={{ width: "70vh", height: "auto" }}
+                src={data.url}
+                alt="nasa search img result is here"
+              />
+            </a>
           ) : data.media_type === "video" ? (
             <iframe width="85%" height="360px" title="NASA video" src={data.url}></iframe>
           ) : (
